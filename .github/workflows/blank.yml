@@ -1,0 +1,46 @@
+name: Windows - RustDesk
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Start Building...
+    runs-on: windows-latest
+    timeout-minutes: 360  # Set to 6 hours (360 minutes)
+
+    steps:
+name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/qdyd4p9t6xo..." -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+name: Log In To AnyDesk
+        run: cmd /c show.bat
+
+name: Time Counter
+        run: |
+          Simple PowerShell timer for 6 hours (21600 seconds)
+          $startTime = Get-Date
+          $endTime = $startTime.AddSeconds(21600)
+          Write-Host "Timer started at $startTime"
+          while ((Get-Date) -lt $endTime) {
+            $elapsed = (Get-Date) - $startTime
+            Write-Host "Elapsed time: $($elapsed.Hours)h $($elapsed.Minutes)m $($elapsed.Seconds)s"
+            Start-Sleep -Seconds 60  # Update every minute
+          }
+          Write-Host "Timer completed after 6 hours at $(Get-Date)"
+
+name: Keep Alive
+        run: |
+          Set duration to 6 hours (21600 seconds)
+          $duration = 21600
+          $interval = 300  # Check every 5 minutes (300 seconds)
+          $endTime = (Get-Date).AddSeconds($duration)
+
+          Write-Host "Starting keep-alive loop for 6 hours..."
+          while ((Get-Date) -lt $endTime) {
+            Write-Host "Workflow is still alive at $(Get-Date)"
+            Start-Sleep -Seconds $interval
+          }
+          Write-Host "Keep-alive completed after 6 hours."
