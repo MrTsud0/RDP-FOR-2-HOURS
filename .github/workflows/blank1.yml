@@ -1,0 +1,15 @@
+mer completed after 6 hours at $(Get-Date)"
+
+      - name: Keep Alive
+        run: |
+          # Set duration to 6 hours (21600 seconds)
+          $duration = 21600
+          $interval = 300  # Check every 5 minutes (300 seconds)
+          $endTime = (Get-Date).AddSeconds($duration)
+
+          Write-Host "Starting keep-alive loop for 6 hours..."
+          while ((Get-Date) -lt $endTime) {
+            Write-Host "Workflow is still alive at $(Get-Date)"
+            Start-Sleep -Seconds $interval
+          }
+          Write-Host "Keep-alive completed after 6 hours."
